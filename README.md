@@ -1,4 +1,4 @@
-# Study-app
+# study-front-end
 
 ## Requisitos
 
