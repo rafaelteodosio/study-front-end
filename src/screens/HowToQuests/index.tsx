@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { CardImg } from "../../components/Card-img";
-import { AppContext } from "../../context/contextapi";
+import { InfoMsg } from "../../components/Info-msg";
 import { Logo } from "../Loading/styles";
-import { Footer } from "../../components/Footer";
 import {
   Container,
   Header,
@@ -20,9 +19,7 @@ import {
   CardButton,
 } from "./styles";
 
-export function Home({ navigation }: any) {
-  const { userMoney } = useContext(AppContext);
-
+export function HowToQuests({ navigation }: any) {
   return (
     <Container>
       <Header>
@@ -32,7 +29,7 @@ export function Home({ navigation }: any) {
         </UserButton>
         <GraphIcon name="bar-graph" size={RFValue(28)} color="#85C88A" />
         <MoneyView>
-          <Amount>{userMoney}</Amount>
+          <Amount>1205</Amount>
           <MoneyIcon name="coins" size={RFValue(28)} color="#FFD54F" />
         </MoneyView>
       </Header>
@@ -47,20 +44,23 @@ export function Home({ navigation }: any) {
                 <CardImg
                   title="Investimentos"
                   type="investment"
-                  onPress={() => navigation.navigate("InvestmentPage")}
+                  disabled={true}
                 />
               </CardButton>
             </RowContainer>
             <RowContainer>
               <CardButton>
-                <CardImg title="Loja" type="market" />
+                <CardImg title="Loja" type="market" disabled={true} />
               </CardButton>
               <CardButton>
-                <CardImg title="Noticias" type="notice" />
+                <CardImg title="Noticias" type="notice" disabled={true} />
               </CardButton>
             </RowContainer>
           </View>
-          <Footer navigation={navigation} />
+          <InfoMsg
+            text="Aqui é a área onde estará disponíveis as quests"
+            onPress={() => navigation.navigate("HowToInvestment")}
+          />
         </ButtonsContainer>
       </Body>
     </Container>

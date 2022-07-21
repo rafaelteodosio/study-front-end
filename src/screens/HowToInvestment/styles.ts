@@ -1,6 +1,6 @@
 import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import { AntDesign, Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
@@ -35,8 +35,6 @@ export const UserIcon = styled(AntDesign)``;
 
 export const GraphIcon = styled(Entypo)``;
 
-export const CardIcon = styled(Ionicons)``;
-
 export const MoneyView = styled.View`
   align-items: center;
   flex-direction: row;
@@ -56,6 +54,7 @@ export const ButtonsContainer = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
   padding-top: ${RFValue(24)}px;
   justify-content: space-between;
+  padding-bottom: ${getStatusBarHeight() + RFValue(10)}px;
 `;
 
 export const RowContainer = styled.View`
@@ -64,15 +63,3 @@ export const RowContainer = styled.View`
 `;
 
 export const CardButton = styled(RectButton)``;
-
-export const Footer = styled.View`
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.background};
-  flex-direction: row;
-  justify-content: space-around;
-  border-radius: 16px;
-  align-items: center;
-  margin-bottom: ${getStatusBarHeight() + RFValue(15)}px;
-  padding: 8px 0%;
-  box-shadow: 0px 8px 16px rgba(5, 0, 56, 0.12);
-`;

@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { CardImg } from "../../components/Card-img";
-import { AppContext } from "../../context/contextapi";
+import { InfoMsg } from "../../components/Info-msg";
 import { Logo } from "../Loading/styles";
-import { Footer } from "../../components/Footer";
 import {
   Container,
   Header,
@@ -20,9 +19,7 @@ import {
   CardButton,
 } from "./styles";
 
-export function Home({ navigation }: any) {
-  const { userMoney } = useContext(AppContext);
-
+export function HowToNotice({ navigation }: any) {
   return (
     <Container>
       <Header>
@@ -32,7 +29,7 @@ export function Home({ navigation }: any) {
         </UserButton>
         <GraphIcon name="bar-graph" size={RFValue(28)} color="#85C88A" />
         <MoneyView>
-          <Amount>{userMoney}</Amount>
+          <Amount>1205</Amount>
           <MoneyIcon name="coins" size={RFValue(28)} color="#FFD54F" />
         </MoneyView>
       </Header>
@@ -41,26 +38,29 @@ export function Home({ navigation }: any) {
           <View>
             <RowContainer>
               <CardButton>
-                <CardImg title="Quests" type="quest" />
+                <CardImg title="Quests" type="quest" disabled={true} />
               </CardButton>
               <CardButton>
                 <CardImg
                   title="Investimentos"
                   type="investment"
-                  onPress={() => navigation.navigate("InvestmentPage")}
+                  disabled={true}
                 />
               </CardButton>
             </RowContainer>
             <RowContainer>
               <CardButton>
-                <CardImg title="Loja" type="market" />
+                <CardImg title="Loja" type="market" disabled={true} />
               </CardButton>
               <CardButton>
                 <CardImg title="Noticias" type="notice" />
               </CardButton>
             </RowContainer>
           </View>
-          <Footer navigation={navigation} />
+          <InfoMsg
+            text="E por útlimo, este é o card vai ter notícias sobre atualidade do Brasil e do mundo. Agora você está pronto para usar o aplicativo, vamos?"
+            onPress={() => navigation.navigate("Home")}
+          />
         </ButtonsContainer>
       </Body>
     </Container>
