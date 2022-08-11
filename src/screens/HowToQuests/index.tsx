@@ -1,38 +1,38 @@
-import React from "react";
-import { Text, View } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
+import axios from "axios";
+import React, { useContext } from "react";
+import { useEffect } from "react";
+import { View } from "react-native";
 import { CardImg } from "../../components/Card-img";
+import { Header } from "../../components/Header";
 import { InfoMsg } from "../../components/Info-msg";
-import { Logo } from "../Loading/styles";
+import { AppContext } from "../../context/contextapi";
 import {
   Container,
-  Header,
   Body,
-  UserButton,
-  UserIcon,
-  GraphIcon,
-  MoneyView,
-  MoneyIcon,
-  Amount,
   ButtonsContainer,
   RowContainer,
   CardButton,
 } from "./styles";
 
 export function HowToQuests({ navigation }: any) {
+  const { token } = useContext(AppContext);
+
+  async function setFirstAccess() {
+    axios({
+      method: "put",
+      url: "http://localhost:5000/auth/user/access",
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    navigation.navigate("HowToInvestment");
+  }
+
   return (
     <Container>
-      <Header>
-        <Logo source={require("../../global/imgs/logo-sm.png")} />
-        <UserButton>
-          <UserIcon name="user" size={RFValue(28)} />
-        </UserButton>
-        <GraphIcon name="bar-graph" size={RFValue(28)} color="#85C88A" />
-        <MoneyView>
-          <Amount>1205</Amount>
-          <MoneyIcon name="coins" size={RFValue(28)} color="#FFD54F" />
-        </MoneyView>
-      </Header>
+      <Header />
       <Body>
         <ButtonsContainer>
           <View>
@@ -59,7 +59,7 @@ export function HowToQuests({ navigation }: any) {
           </View>
           <InfoMsg
             text="Aqui é a área onde estará disponíveis as quests"
-            onPress={() => navigation.navigate("HowToInvestment")}
+            onPress={() => setFirstAccess()}
           />
         </ButtonsContainer>
       </Body>

@@ -1,82 +1,49 @@
+import axios from "axios";
 import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
-import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { RFValue } from "react-native-responsive-fontsize";
 import { Footer } from "../../components/Footer";
+import { Header } from "../../components/Header";
 import { InvestmentList } from "../../components/Investment-list";
 import { PageTitle } from "../../components/Page-title";
 import { TitleListProducts } from "../../components/Title-list-products";
 import { AppContext } from "../../context/contextapi";
-import { Logo } from "../Loading/styles";
-import {
-  Container,
-  Header,
-  Body,
-  UserButton,
-  UserIcon,
-  GraphIcon,
-  MoneyView,
-  MoneyIcon,
-  Amount,
-  ButtonsContainer,
-} from "./styles";
+import { Container, Body, ButtonsContainer } from "./styles";
 
 export interface InvestmentProps {
+  fixed_income: boolean;
+  id: number;
   name: string;
+  percentage: string;
   stars: number;
-  percent: string;
 }
 
 export function InvestmentPage({ navigation }: any) {
-  const { userMoney } = useContext(AppContext);
   const [fixRent, setFixRent] = useState(false);
   const [fii, setFii] = useState(false);
 
-  const [mockInvestment, setMockInvestment] = useState<Array<InvestmentProps>>([
-    {
-      name: "CDI",
-      stars: 1,
-      percent: "9",
-    },
-    {
-      name: "SELIC",
-      stars: 2,
-      percent: "11",
-    },
-  ]);
+  const [investments, setInvestment] = useState<Array<InvestmentProps>>([]);
 
-  const [mockFii2, setMockFii2] = useState<Array<InvestmentProps>>([
-    {
-      name: "BRCO11",
-      stars: 1,
-      percent: "7,62",
-    },
-    {
-      name: "BTLG11",
-      stars: 5,
-      percent: "6,64",
-    },
-    {
-      name: "HGLG11",
-      stars: 2,
-      percent: "9,96",
-    },
-  ]);
+  const { token } = useContext(AppContext);
+
+  async function getInvestiments() {
+    await axios
+      .get(`http://localhost:5000/investment`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => setInvestment(res.data.data.investments));
+  }
+
+  useEffect(() => {
+    getInvestiments();
+  }, [investments]);
 
   return (
     <Container>
-      <Header>
-        <Logo source={require("../../global/imgs/logo-sm.png")} />
-        <UserButton>
-          <UserIcon name="user" size={RFValue(28)} />
-        </UserButton>
-        <GraphIcon name="bar-graph" size={RFValue(28)} color="#85C88A" />
-        <MoneyView>
-          <Amount>{userMoney}</Amount>
-          <MoneyIcon name="coins" size={RFValue(28)} color="#FFD54F" />
-        </MoneyView>
-      </Header>
+      <Header navigation={navigation} />
       <Body>
         <ButtonsContainer>
           <PageTitle title="Lista de investimentos" type="investment" />
@@ -88,16 +55,26 @@ export function InvestmentPage({ navigation }: any) {
               onPress={() => setFixRent(!fixRent)}
             />
 
-            {fixRent && <InvestmentList ArrayInvestments={mockInvestment} />}
+            {fixRent && (
+              <InvestmentList
+                ArrayInvestments={investments}
+                FixedIncome={true}
+              />
+            )}
 
             <TitleListProducts
-              title="Fundos Imobiliários"
+              title="Renda Variável"
               numberStars={3}
               type="investment"
               onPress={() => setFii(!fii)}
             />
 
-            {fii && <InvestmentList ArrayInvestments={mockFii2} />}
+            {fii && (
+              <InvestmentList
+                ArrayInvestments={investments}
+                FixedIncome={false}
+              />
+            )}
           </ScrollView>
           <Footer navigation={navigation} />
         </ButtonsContainer>
