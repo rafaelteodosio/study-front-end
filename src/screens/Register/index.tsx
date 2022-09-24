@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Text } from "react-native";
+import { Alert, Text } from "react-native";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import {
@@ -28,13 +28,16 @@ export function Register({ navigation }: any) {
       password !== confirmPassword
     ) {
       await axios
-        .post(`http://localhost:5000/signup`, {
+        .post(`https://study-api-deno.herokuapp.com/signup`, {
           nickname: user,
-          email: emailUser,
+          email: emailUser.toLowerCase(),
           password: password,
         })
-        .then((res) => console.log(res, "teste"))
-        .catch(() => console.log("erro ao cadastrar"));
+        .then(() => {
+          navigation.navigate("Login");
+          Alert.alert("Sucesso!", "sua conta foi cadastrada com sucesso :)");
+        })
+        .catch(() => Alert.alert("Erro!", "Erro ao cadastrar"));
     } else {
       setError(true);
       setTimeout(() => setError(false), 2000);
